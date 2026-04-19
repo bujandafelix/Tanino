@@ -3,65 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanino AI | Precision Viticulture</title>
+    <title>Tanino.app | AI Precision Viticulture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body {
+        :root {
+            --bg-color: #0b0f19;
+            --surface-color: #1a2235;
+            --primary-wine: #9d174d;
+            --accent-purple: #c026d3;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
-        .container {
-            max-width: 600px;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            color: #c026d3; /* A deep wine/tech purple */
-        }
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 20px;
-            color: #94a3b8;
-        }
-        p {
-            font-size: 1.1rem;
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
             line-height: 1.6;
-            margin-bottom: 40px;
-            color: #cbd5e1;
         }
-        .waitlist-btn {
-            background-color: #c026d3;
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary-wine), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 150px 20px 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* Interactive App Demo Section */
+        .app-demo {
+            background: var(--surface-color);
+            border: 1px solid rgba(192, 38, 211, 0.3);
+            border-radius: 16px;
+            max-width: 700px;
+            margin: 0 auto 100px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .app-demo h3 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--accent-purple);
+        }
+
+        .slider-group {
+            margin-bottom: 25px;
+        }
+
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--primary-wine);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-wine), var(--accent-purple));
             color: white;
             border: none;
             padding: 15px 30px;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
+            width: 100%;
+            transition: opacity 0.3s;
         }
-        .waitlist-btn:hover {
-            background-color: #a21caf;
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        /* AI Output Box */
+        #ai-output {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(157, 23, 77, 0.1);
+            border-left: 4px solid var(--accent-purple);
+            border-radius: 4px;
+            text-align: left;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 5% 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--surface-color);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-purple);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Waitlist Section */
+        .cta-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(to top, var(--surface-color), var(--bg-color));
+        }
+
+        .email-input {
+            padding: 15px;
+            width: 300px;
+            border-radius: 8px;
+            border: 1px solid var(--text-muted);
+            background: var(--bg-color);
+            color: white;
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.5rem; }
+            .email-input { width: 100%; margin-bottom: 10px; }
+            .btn-primary { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Tanino.ai</h1>
-        <h2>Precision Viticulture, Powered by AI.</h2>
-        <p>Helping boutique wineries worldwide hit the perfect grape standard. We use climate data and AI to optimize treatments, green harvesting, and perfect harvest timing.</p>
-        <a href="mailto:felix@tanino.app" class="waitlist-btn">Join the Waitlist</a>
-    </div>
+
+    <nav>
+        <div class="logo">Tanino.app</div>
+        <a href="#waitlist" class="btn-primary" style="width: auto; padding: 10px 20px; text-decoration: none;">Early Access</a>
+    </nav>
+
+    <section class="hero">
+        <h1>Reverse-Engineer Your Perfect Vintage.</h1>
+        <p>Don't just react to the weather. Tell Tanino's AI your target Brix, pH, and Tannin levels, and get precise, actionable farming strategies to hit your exact grape standard.</p>
+    </section>
+
+    <section class="app-demo">
+        <h3>Try the Tanino AI Engine</h3>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Input your desired harvest metrics for this block.</p>
+        
+        <div class="slider-group">
+            <label>Target Sugar (Brix) <span id="brix-val">24.0°</span></label>
+            <input type="range" id="brix-slider" min="18" max="30" step="0.5" value="24">
+        </div>
+
+        <div class="slider-group">
+            <label>Target Acidity (pH) <span id="ph-val">3.5</span></label>
+            <input type="range" id="ph-slider" min="3.0" max="4.0" step="0.1" value="3.5">
+        </div>
+
+        <div class="slider-group">
+            <label>Disease Tolerance (Botrytis Risk) <span id="rot-val">Low</span></label>
+            <input type="range" id="rot-slider" min="1" max="3" value="1">
+        </div>
+
+        <button class="btn-primary" onclick="generateStrategy()" id="gen-btn">Generate Farming Strategy</button>
+
+        <div id="ai-output">
+            <h4 style="color: var(--accent-purple); margin-bottom: 10px;"><i class="fa-solid fa-microchip"></i> Tanino AI Recommendation:</h4>
+            <p id="ai-text"></p>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <i class="fa-solid fa-cloud-sun-rain feature-icon"></i>
+            <h3>Hyper-Local Weather Intelligence</h3>
+            <p>Our algorithms track micro-climate anomalies, rain forecasts, and Growing Degree Days (GDD) specific to the exact coordinates of your vineyard block.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fa-solid fa-leaf feature-icon"></i>
+            <h3>Dynamic Canopy Management</h3>
+            <p>Get alerted exactly when to perform green harvesting or leaf pulling to redirect vine energy into sugar production or protect acidity during heatwaves.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fa-solid fa-wine-glass feature-icon"></i>
+            <h3>Precision Harvest Windows</h3>
+            <p>Stop guessing. Tanino continuously calculates the delta between your current grape chemistry and your target profile to predict the peak harvest date.</p>
+        </div>
+    </section>
+
+    <section class="cta-section" id="waitlist">
+        <h2>Built for the world's best boutique wineries.</h2>
+        <p style="margin-top: 10px; margin-bottom: 30px; color: var(--text-muted);">Join the waitlist to secure early access for your vineyard.</p>
+        <form onsubmit="alert('Thank you! In the full version, this will save to your database.'); return false;">
+            <input type="email" class="email-input" placeholder="winemaker@vineyard.com" required>
+            <button type="submit" class="btn-primary" style="width: auto;">Request Access</button>
+        </form>
+    </section>
+
+    <script>
+        // Update slider values on the screen in real-time
+        const brixSlider = document.getElementById('brix-slider');
+        const phSlider = document.getElementById('ph-slider');
+        const rotSlider = document.getElementById('rot-slider');
+        
+        brixSlider.addEventListener('input', (e) => document.getElementById('brix-val').innerText = e.target.value + '°');
+        phSlider.addEventListener('input', (e) => document.getElementById('ph-val').innerText = e.target.value);
+        
+        rotSlider.addEventListener('input', (e) => {
+            const levels = ['Low', 'Medium', 'High (Noble Rot)'];
+            document.getElementById('rot-val').innerText = levels[e.target.value - 1];
+        });
+
+        // Simulate AI Thinking and Output
+        function generateStrategy() {
+            const btn = document.getElementById('gen-btn');
+            const outputBox = document.getElementById('ai-output');
+            const outputText = document.getElementById('ai-text');
+            const brix = parseFloat(brixSlider.value);
+            
+            // Fake loading state
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Climate Data...';
+            btn.style.opacity = '0.7';
+            outputBox.style.display = 'none';
+
+            setTimeout(() => {
+                // Mock AI Logic based on inputs
+                let strategy = "";
+                if (brix >= 26) {
+                    strategy = "<strong>High Brix Target Detected:</strong> To achieve " + brix + "° Brix before the first frost, Tanino recommends a 15% green harvest (cluster thinning) by next Tuesday. With incoming humidity, apply a preventative fungicide as rot risk increases at this sugar concentration.";
+                } else if (brix <= 21) {
+                    strategy = "<strong>Crisp Profile Target Detected:</strong> You are targeting low sugar and high acidity. Ensure robust canopy coverage on the west-facing side to prevent afternoon sunburn, which drops acidity rapidly. Estimated harvest window: 14-18 days.";
+                } else {
+                    strategy = "<strong>Balanced Profile Target Detected:</strong> Current weather trends align with your target of " + brix + "° Brix and a pH of " + phSlider.value + ". Maintain current irrigation schedule. AI predicts peak phenolic ripeness in exactly 22 days.";
+                }
+
+                // Show output
+                outputText.innerHTML = strategy;
+                outputBox.style.display = 'block';
+                
+                // Reset button
+                btn.innerHTML = 'Regenerate Strategy';
+                btn.style.opacity = '1';
+            }, 1500); // 1.5 second fake delay
+        }
+    </script>
 </body>
 </html>
